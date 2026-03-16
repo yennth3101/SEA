@@ -1,0 +1,81 @@
+{
+  "entities": {
+    "Settings": {
+      "title": "Cấu hình hệ thống",
+      "description": "Lưu trữ tài liệu và nội dung học tập hiện hành.",
+      "type": "object",
+      "properties": {
+        "currentLectureId": { "type": "string", "description": "ID của bài giảng hiện tại" },
+        "currentTestId": { "type": "string", "description": "ID của bài test hiện tại" },
+        "updatedAt": { "type": "string", "format": "date-time" },
+        "updatedBy": { "type": "string" }
+      },
+      "required": ["currentLectureId", "currentTestId"]
+    },
+    "Lecture": {
+      "title": "Bài giảng",
+      "description": "Nội dung bài giảng chi tiết do AI tạo ra.",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "content": { "type": "string", "description": "Nội dung Markdown của bài giảng" },
+        "summary": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "sourceText": { "type": "string", "description": "Dữ liệu gốc dùng để tra cứu chatbot" }
+      },
+      "required": ["title", "content", "createdAt"]
+    },
+    "Test": {
+      "title": "Bài kiểm tra",
+      "description": "Danh sách 15 câu hỏi trắc nghiệm.",
+      "type": "object",
+      "properties": {
+        "questions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "question": { "type": "string" },
+              "options": { "type": "array", "items": { "type": "string" } },
+              "correctAnswer": { "type": "string", "enum": ["A", "B", "C", "D"] },
+              "explanation": { "type": "string" }
+            }
+          }
+        },
+        "createdAt": { "type": "string", "format": "date-time" }
+      }
+    },
+    "Submission": {
+      "title": "Kết quả nộp bài",
+      "description": "Kết quả làm bài của sinh viên.",
+      "type": "object",
+      "properties": {
+        "studentName": { "type": "string" },
+        "studentClass": { "type": "string" },
+        "score": { "type": "number" },
+        "totalQuestions": { "type": "number" },
+        "evaluation": { "type": "string" },
+        "feedback": { "type": "string" },
+        "submittedAt": { "type": "string", "format": "date-time" },
+        "testId": { "type": "string" }
+      },
+      "required": ["studentName", "studentClass", "score", "submittedAt"]
+    },
+    "User": {
+      "title": "Người dùng",
+      "description": "Thông tin phân quyền người dùng.",
+      "type": "object",
+      "properties": {
+        "email": { "type": "string" },
+        "role": { "type": "string", "enum": ["lecturer", "student"] }
+      }
+    }
+  },
+  "firestore": {
+    "/settings/current": { "schema": "Settings", "description": "Cấu hình hiện hành" },
+    "/lectures/{lectureId}": { "schema": "Lecture", "description": "Danh sách bài giảng" },
+    "/tests/{testId}": { "schema": "Test", "description": "Danh sách bài test" },
+    "/submissions/{submissionId}": { "schema": "Submission", "description": "Kết quả sinh viên" },
+    "/users/{userId}": { "schema": "User", "description": "Phân quyền người dùng" }
+  }
+}

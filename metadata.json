@@ -1,0 +1,9 @@
+{
+  "name": "Trợ lý Học tập Thông minh",
+  "description": "Nền tảng hỗ trợ giảng viên tạo bài giảng và bài test tự động từ tài liệu bằng AI, tích hợp chatbot và đồng bộ Google Sheets.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone",
+    "geolocation"
+  ]
+}
